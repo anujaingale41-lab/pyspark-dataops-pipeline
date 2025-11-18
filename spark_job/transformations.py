@@ -93,16 +93,34 @@ def remove_duplicates(df: DataFrame) -> DataFrame:
 
 def clean_sales_data(df: DataFrame) -> DataFrame:
     """
-    Full cleaning pipeline (used inside job.py):
-    1. Normalize product names
-    2. Fix quantity
-    3. Fix price
-    4. Remove duplicates
-    5. Add revenue
+    Full cleaning pipeline:
+    1. Remove rows with missing or empty order_id
+    2. Normalize product names
+    3. Fix quantity
+    4. Fix price
+    5. Remove duplicates (order_id)
+    6. Add revenue
     """
+
+    # 1. Remove rows with NULL or empty order_id
+    df = df.filter(
+        (col("order_id").isNotNull()) &
+        (trim(col("order_id")) != "")
+    )
+
+    # 2. Normalize product
     df = normalize_product_names(df)
+
+    # 3. Fix quantity
     df = fix_quantity(df)
+
+    # 4. Fix price
     df = fix_price(df)
+
+    # 5. Deduplicate
     df = remove_duplicates(df)
+
+    # 6. Add revenue
     df = add_revenue(df)
+
     return df
