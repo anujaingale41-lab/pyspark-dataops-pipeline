@@ -3,8 +3,6 @@
 **Build & Deployment Status**
 
 ![CI Pipeline](https://github.com/anujaingale41-lab/pyspark-dataops-pipeline/actions/workflows/ci.yml/badge.svg)
-![CD Pipeline](https://github.com/anujaingale41-lab/pyspark-dataops-pipeline/actions/workflows/cd.yml/badge.svg)
-
 
 # PySpark DataOps Pipeline
 
