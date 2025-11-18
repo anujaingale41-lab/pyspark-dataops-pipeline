@@ -1,27 +1,24 @@
-name: PySpark CI Pipeline
+name: PySpark CD Pipeline
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    tags:
+      - 'v*'
 
 jobs:
-  build-and-test:
+  deploy:
     runs-on: ubuntu-latest
     permissions:
-      contents: write  
-    env:
-      PYTHONPATH: ${{ github.workspace }}    # <-- add this so python can import spark_job
+      contents: write
 
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.10"
+          python-version: '3.10'
 
       - name: Install dependencies
         run: |
@@ -31,4 +28,18 @@ jobs:
       - name: Run tests
         run: |
           python -m pytest -v
+
+      - name: Package PySpark job
+        run: |
+          mkdir package
+          cp -r spark_job package/
+          cp run_job.py package/
+          cp requirements.txt package/
+          cd package && zip -r ../pyspark_dataops_pipeline.zip .
+
+      - name: Create Release and upload artifact
+        uses: softprops/action-gh-release@v1
+        with:
+          files: pyspark_dataops_pipeline.zip
+
 
