@@ -3,10 +3,7 @@ name: PySpark CD Pipeline
 on:
   push:
     tags:
-      - 'v*'
-
-permissions:
-  contents: write   # <-- PERMISSIONS MUST BE HERE (NOT UNDER JOBS)
+      - 'v*'   # Trigger when you push version tags like v1.0, v2.1
 
 jobs:
   deploy:
