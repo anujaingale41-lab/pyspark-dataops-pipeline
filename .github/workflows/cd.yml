@@ -3,7 +3,10 @@ name: PySpark CD Pipeline
 on:
   push:
     tags:
-      - 'v*'   # Trigger when you push version tags like v1.0, v2.1
+      - 'v*'
+
+permissions:
+  contents: write   # <-- PERMISSIONS MUST BE HERE (NOT UNDER JOBS)
 
 jobs:
   deploy:
@@ -16,17 +19,18 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.10"
+          python-version: '3.10'
 
       - name: Install dependencies
         run: |
+          python -m pip install --upgrade pip
           pip install -r requirements.txt
 
       - name: Run tests
         run: |
           python -m pytest -v
 
-      - name: Package PySpark Job
+      - name: Package PySpark job
         run: |
           mkdir package
           cp -r spark_job package/
@@ -34,7 +38,8 @@ jobs:
           cp requirements.txt package/
           cd package && zip -r ../pyspark_dataops_pipeline.zip .
 
-      - name: Upload Release Artifact
+      - name: Create Release and upload artifact
         uses: softprops/action-gh-release@v1
         with:
           files: pyspark_dataops_pipeline.zip
+
