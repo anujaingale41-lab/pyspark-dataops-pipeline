@@ -1,3 +1,6 @@
+![CD Pipeline](https://github.com/anujaingale41-lab/pyspark-dataops-pipeline/actions/workflows/cd.yml/badge.svg)
+
+
 # PySpark DataOps Pipeline
 
 A PySpark batch ETL pipeline with CI/CD using GitHub Actions.  
