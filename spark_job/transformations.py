@@ -91,7 +91,7 @@ def remove_duplicates(df: DataFrame) -> DataFrame:
     return df.dropDuplicates(["order_id"])
 
 
-def clean_data(df: DataFrame) -> DataFrame:
+def clean_sales_data(df: DataFrame) -> DataFrame:
     """
     Full cleaning pipeline (used inside job.py):
     1. Normalize product names
