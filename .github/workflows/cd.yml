@@ -4,7 +4,8 @@ on:
   push:
     tags:
       - 'v*'   # Trigger when you push version tags like v1.0, v2.1
-
+permissions:
+  contents: write
 jobs:
   deploy:
     runs-on: ubuntu-latest
